@@ -3,6 +3,7 @@ import postsRouter from "./routers/posts.js";
 const app = express();
 const port = 4000;
 
+
 app.use(express.json());
 
 app.use(express.static("public"));
@@ -15,6 +16,23 @@ app.get("/", (req, res) => {
     });
 });
 
+
+app.put('/posts/:id', (req, res) => {
+  const postId = parseInt(req.params.id);
+  const index = posts.findIndex(post => post.id === postId);
+
+  if (index === -1) {
+    return res.status(404).json({ error: 'Post non trovato' });
+  }
+
+  // Aggiorna solo i campi forniti
+  posts[index] = {
+    ...posts[index],
+    ...req.body
+  };
+
+  res.json(posts[index]);
+});
 
 
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { index, show, destroy } from "../controllers/postController.js";
+import { index, show, create, update, destroy } from "../controllers/postController.js";
 
 
 // ROTTA ROUTER
@@ -10,7 +10,11 @@ router.get("/", index)
 //SHOW
 router.get("/:id", show)
 
+//Rotta per creare un nuovo post
+router.post("/", create);
 
+//rotta per aggiornare un post 
+router.put("/:id", update);
 
 // CANCELLO
  router.delete("/:id", destroy);
