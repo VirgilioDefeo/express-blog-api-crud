@@ -1,14 +1,27 @@
 import express from "express";
 import postsRouter from "./routers/posts.js";
+import loggingMiddleWare from "./middlewares/loggingMiddleWare.js"
+import routeGroupeMiddleware from "./middlewares/routeGroupeMiddleware.js"
+import routeNotFound from "./middlewares/roteNotFound.js"
+import errorHendler from "./middlewares/errorHendler.js"
+
+
 const app = express();
 const port = 4000;
+
 
 
 app.use(express.json());
 
 app.use(express.static("public"));
+//resgistratio a livell globale
+app.use(loggingMiddleWare);
+app.use("/posts", loggingMiddleWare, postsRouter);
+app.use(routeNotFound);
+app.use(errorHendler);
 
-app.use("/posts", postsRouter);
+
+
 
 app.get("/", (req, res) => {
     res.json({

@@ -1,10 +1,11 @@
+
 export const posts = [
     {
         "id": 1,
         "title": "ciambellone 123",
         "content": "alimentare",
         "Image": "/images/ciambellone.jpeg",
-        "tags": ["liga", "calcio", "pistole"],
+        "tags": ["liga", "calcio", "coppa"],
         "price": 14
     },
     {
@@ -12,7 +13,7 @@ export const posts = [
         "title": "cracker_barbabietola",
         "content": "alimentare",
         "Image": "/images/cracker_barbabietola.jpeg",
-        "tags": ["liga", "calcio", "pistole"],
+        "tags": ["liga", "calcio", "coppa"],
         "price": 12
     },
     {
@@ -20,7 +21,7 @@ export const posts = [
         "title": "pane_fritto_dolce",
         "content": "alimentare",
         "Image": "/images/pane_fritto_dolce.jpeg",
-        "tags": ["liga", "calcio", "pistole"],
+        "tags": ["liga", "calcio", "coppa"],
         "price": 9
     },
     {
@@ -28,7 +29,7 @@ export const posts = [
         "title": "pasta_barbabietola",
         "content": "alimentare",
         "Image": "/images/pasta_barbabietola.jpeg",
-        "tags": ["liga", "calcio", "pistole"],
+        "tags": ["liga", "calcio", "coppa"],
         "price": 30
     },
     {
@@ -36,13 +37,15 @@ export const posts = [
         "title": "torta_paesana",
         "content": "alimentare",
         "Image": "/images/torta_paesana.jpeg",
-        "tags": ["liga", "pallavolo", "pistole"],
+        "tags": ["liga", "pallavolo", "coppa"],
         "price": 10
     }
 ];
+
 const sendNotFound = (res) => {
-   return sendNotFound(res)
+   return '';
 }
+
 //index 
 export const index = (req, res) => {
     const postFilter = req.query.tags;
@@ -100,7 +103,7 @@ export const create = (req, res) => {
     }
     
     const newPost = {
-        id:
+        id: posts.length > 0 ? posts[posts.length - 1 ].id + 1 : 1,
         title,
         content
     };
@@ -119,9 +122,11 @@ export const update = (req, res) => {
     if(!post) {
         return sendNotFound(res)
     }
-    post.name = postId.name;
+    post.name = postId.title;
     post.image = postId.image;
     post.content = postId.content
+    post.tags = postId.tags
+    post.price = postId.price
     console.log("body ricevuto");
     
     const postIndex = posts.findIndex(p => p.id === postId);
@@ -150,7 +155,7 @@ export const destroy = (req, res) => {
     const postIndex = posts.findIndex(p => p.id === postId);
     
     if (postIndex !== -1) {
-        posts.splice(postIndex, 1);
+        posts.splice(req.postIndex, 1);
         console.log("Lista aggiornata:", posts);
         res.status(204).end();
     } else {
