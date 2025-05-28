@@ -43,7 +43,7 @@ export const posts = [
 ];
 
 const sendNotFound = (res) => {
-   return '';
+   return res.status(404).json({message: "post non trovato!!!"});
 }
 
 //index 
@@ -96,7 +96,7 @@ export const show = (req, res) => {
 
 // Create - Crea un nuovo post
 export const create = (req, res) => {
-    const { title, content } = req.body;
+    const { title, content, image, tags, price } = req.body;
     
     if (!title || !content) {
         return res.status(400).json({ message: "Title e content sono obbligatori" });
@@ -105,7 +105,10 @@ export const create = (req, res) => {
     const newPost = {
         id: posts.length > 0 ? posts[posts.length - 1 ].id + 1 : 1,
         title,
-        content
+        content,
+        image,
+        tags,
+        price
     };
     
     posts.push(newPost);
@@ -117,16 +120,16 @@ export const create = (req, res) => {
 export const update = (req, res) => {
     const postId = parseInt(req.params.id);
 
-    const { title, content } = req.body;
+    const { title, content, image, tags, price } = req.body;
     const post = posts.find((curPost) => curPost.id === postId);
     if(!post) {
         return sendNotFound(res)
     }
-    post.name = postId.title;
+    post.title = postId.title;
     post.image = postId.image;
-    post.content = postId.content
-    post.tags = postId.tags
-    post.price = postId.price
+    post.content = postId.content;
+    post.tags = postId.tags;
+    post.price = postId.price;
     console.log("body ricevuto");
     
     const postIndex = posts.findIndex(p => p.id === postId);
@@ -142,7 +145,10 @@ export const update = (req, res) => {
     const updatedPost = {
         id: postId,
         title,
-        content
+        content,
+        image, 
+        tags,
+        price
     };
     
     posts[postIndex] = updatedPost;
